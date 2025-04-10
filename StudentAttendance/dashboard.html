@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="topbar">
+        <div class="profile-dropdown">
+            <div class="profile-button" onclick="toggleDropdown()">
+                <img src="profile.png" alt="User" class="profile-pic"> 
+                <span class="username">Teacher Name</span>
+                <span class="dropdown-icon">▼</span>
+            </div>
+            <div class="dropdown-content" id="dropdownMenu">
+                <a href="profile.php"><i class="fa fa-user"></i> My Profile</a>
+                <a href="change_password.php"><i class="fa fa-key"></i> Change Password</a>
+                <a href="logout.php"><i class="fa fa-sign-out"></i> Logout</a>
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-container">
+        <h2>Welcome to the Dashboard</h2>
+        <p>You are logged in as <span id="username"></span></p>
+        <button onclick="window.location.href='logout.php'">Logout</button>
+    </div><script>
+    // Retrieve the username from PHP session
+    fetch('session.php')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('username').textContent = data.username || 'User';
+        })
+        .catch(error => console.log('Error fetching session data:', error));
+</script>
+<script>
+    function toggleDropdown() {
+        document.getElementById("dropdownMenu").classList.toggle("show");
+    }
+
+    // Close dropdown if clicked outside
+    window.onclick = function(event) {
+        if (!event.target.matches('.profile-button, .profile-button *')) {
+            document.getElementById("dropdownMenu").classList.remove("show");
+        }
+    }
+</script>
+</body>
+</html>
